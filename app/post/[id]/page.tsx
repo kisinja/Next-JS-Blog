@@ -1,4 +1,4 @@
-import React from 'react';
+import { Metadata } from 'next';
 import prisma from '@/utils/connect';
 import Link from 'next/link';
 import { formatDate } from '@/lib/utils';
@@ -6,24 +6,33 @@ import Image from 'next/image';
 import { buttonVariants } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 
-interface PostDetailProps {
-    params: {
-        id: string;
-    };
-};
+interface BlogPost {
+    id: string;
+    title: string;
+    content: string;
+    imageUrl: string;
+    authorId: string;
+    authorName: string;
+    authorImage: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
-const getPostDetail = async (postId: string) => {
-    const data = await prisma.blogPost.findUnique({
-        where: {
-            id: postId,
-        },
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const post = await prisma.blogPost.findUnique({
+        where: { id: params.id },
     });
-    return data;
-};
 
-const PostDetail = async ({ params }: PostDetailProps) => {
-    const { id } = params;
-    const post = await getPostDetail(id);
+    return {
+        title: post?.title || 'Post not found',
+        description: post?.content.substring(0, 160) || 'Blog post details',
+    };
+}
+
+export default async function PostDetail({ params }: { params: { id: string } }) {
+    const post = await prisma.blogPost.findUnique({
+        where: { id: params.id },
+    });
 
     if (!post) {
         return (
@@ -37,15 +46,17 @@ const PostDetail = async ({ params }: PostDetailProps) => {
                 </div>
             </div>
         );
-    };
+    }
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fadeIn flex flex-col gap-6">
-
             <div>
-                <Link href="/" className={buttonVariants({
-                    variant: "secondary",
-                }) + " flex items-center gap-1"}>
+                <Link
+                    href="/"
+                    className={buttonVariants({
+                        variant: "secondary",
+                    }) + " flex items-center gap-1"}
+                >
                     <ChevronLeft className="inline" size={16} />
                     Back to posts
                 </Link>
@@ -85,15 +96,18 @@ const PostDetail = async ({ params }: PostDetailProps) => {
 
                 {/* Animated Content Section */}
                 <article className="prose prose-lg max-w-none dark:prose-invert 
-                        prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 
-                        prose-img:rounded-xl prose-img:shadow-lg prose-blockquote:border-l-blue-500
-                        prose-pre:bg-gray-900 prose-pre:text-gray-100">
-                    <div dangerouslySetInnerHTML={{ __html: post.content }} className='text-gray-600 text-lg tracking-wide' />
+              prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 
+              prose-img:rounded-xl prose-img:shadow-lg prose-blockquote:border-l-blue-500
+              prose-pre:bg-gray-900 prose-pre:text-gray-100">
+                    <div
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                        className='text-gray-600 text-lg tracking-wide'
+                    />
 
                     {/* Author Card (Sticky on scroll) */}
                     <div className="sticky bottom-8 mt-16 bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg 
-                      border border-gray-200 dark:border-gray-800 backdrop-blur-sm bg-opacity-80
-                      transition-all duration-300 hover:shadow-xl">
+                border border-gray-200 dark:border-gray-800 backdrop-blur-sm bg-opacity-80
+                transition-all duration-300 hover:shadow-xl">
                         <div className="flex items-center gap-4">
                             <Image
                                 src={post.authorImage}
@@ -120,6 +134,4 @@ const PostDetail = async ({ params }: PostDetailProps) => {
             </div>
         </div>
     );
-};
-
-export default PostDetail;
+}
