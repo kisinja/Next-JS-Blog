@@ -9,14 +9,13 @@ interface BlogPost {
     imageUrl: string;
     authorImage: string;
     authorName: string;
-    authorId: string | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
+    authorId: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 interface BlogCardProps {
     item: BlogPost;
-    index: number | null;
 }
 
 const BlogCard = ({ item }: BlogCardProps) => {
