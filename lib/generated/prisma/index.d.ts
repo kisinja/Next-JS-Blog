@@ -4,6 +4,7 @@
 **/
 
 import * as runtime from './runtime/library.js';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -27,7 +28,7 @@ export type BlogPost = $Result.DefaultSelection<Prisma.$BlogPostPayload>
  * ```
  * const prisma = new PrismaClient()
  * // Fetch zero or more BlogPosts
- * const blogPosts = await prisma.blogPost.findMany()
+ * const blogPosts = await prisma.blogPost.findMunknown()
  * ```
  *
  *
@@ -48,7 +49,7 @@ export class PrismaClient<
    * ```
    * const prisma = new PrismaClient()
    * // Fetch zero or more BlogPosts
-   * const blogPosts = await prisma.blogPost.findMany()
+   * const blogPosts = await prisma.blogPost.findMunknown()
    * ```
    *
    *
@@ -88,7 +89,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P]): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<unknown>[]>(arg: [...P]): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number }): $Utils.JsPromise<R>
 
@@ -116,7 +117,7 @@ export class PrismaClient<
     * Example usage:
     * ```ts
     * // Fetch zero or more BlogPosts
-    * const blogPosts = await prisma.blogPost.findMany()
+    * const blogPosts = await prisma.blogPost.findMunknown()
     * ```
     */
   get blogPost(): Prisma.BlogPostDelegate<ExtArgs, ClientOptions>;
@@ -230,14 +231,14 @@ export namespace Prisma {
     }
 
     /**
-    * Type of `Prisma.AnyNull`.
+    * Type of `Prisma.unknownNull`.
     *
-    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+    * You cannot use other instances of this class. Please use the `Prisma.unknownNull` value.
     *
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
-    class AnyNull {
-      private AnyNull: never
+    class unknownNull {
+      private unknownNull: never
       private constructor()
     }
   }
@@ -261,27 +262,27 @@ export namespace Prisma {
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const AnyNull: NullTypes.AnyNull
+  export const unknownNull: NullTypes.unknownNull
 
   type SelectAndInclude = {
-    select: any
-    include: any
+    select: unknown
+    include: unknown
   }
 
   type SelectAndOmit = {
-    select: any
-    omit: any
+    select: unknown
+    omit: unknown
   }
 
   /**
    * Get the type of the value, that the Promise holds.
    */
-  export type PromiseType<T extends PromiseLike<any>> = T extends PromiseLike<infer U> ? U : T;
+  export type PromiseType<T extends PromiseLike<unknown>> = T extends PromiseLike<infer U> ? U : T;
 
   /**
    * Get the return type of a function which returns a Promise.
    */
-  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>
+  export type PromiseReturnType<T extends (...args: unknown) => $Utils.JsPromise<unknown>> = PromiseType<ReturnType<T>>
 
   /**
    * From T, pick a set of properties whose keys are in the union K
@@ -294,7 +295,7 @@ export namespace Prisma {
   export type Enumerable<T> = T | Array<T>;
 
   export type RequiredKeys<T> = {
-    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
+    [K in keyof T]-?: object extends Prisma__Pick<T, K> ? never : K
   }[keyof T]
 
   export type TruthyKeys<T> = keyof {
@@ -323,7 +324,7 @@ export namespace Prisma {
       ? 'Please either choose `select` or `include`.'
       : T extends SelectAndOmit
         ? 'Please either choose `select` or `omit`.'
-        : {})
+        : object)
 
   /**
    * Subset + Intersection
@@ -350,7 +351,7 @@ export namespace Prisma {
   /**
    * Is T a Record?
    */
-  type IsObject<T extends any> = T extends Array<any>
+  type IsObject<T> = T extends Array<unknown>
   ? False
   : T extends Date
   ? False
@@ -366,7 +367,7 @@ export namespace Prisma {
   /**
    * If it's T[], return T
    */
-  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
+  export type UnEnumerate<T> = T extends Array<infer U> ? U : T
 
   /**
    * From ts-toolbelt
@@ -397,7 +398,7 @@ export namespace Prisma {
     strict extends Boolean = 1
   > = O extends unknown ? _Either<O, K, strict> : never
 
-  export type Union = any
+  export type Union = unknown
 
   type PatchUndefined<O extends object, O1 extends object> = {
     [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K]
@@ -427,7 +428,8 @@ export namespace Prisma {
       0: AtLoose<O, K>;
   }[strict];
 
-  export type ComputeRaw<A extends any> = A extends Function ? A : {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  export type ComputeRaw<A> = A extends Function ? A : {
     [K in keyof A]: A[K];
   } & {};
 
@@ -435,7 +437,7 @@ export namespace Prisma {
     [K in keyof O]?: O[K];
   } & {};
 
-  type _Record<K extends keyof any, T> = {
+  type _Record<K extends PropertyKey, T> = {
     [P in K]: T;
   };
 
@@ -476,8 +478,8 @@ export namespace Prisma {
     1: 0
   }[B]
 
-  export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
-    ? 0 // anything `never` is false
+  export type Extends<A1, A2> = [A1] extends [never]
+    ? 0 // unknownthing `never` is false
     : A1 extends A2
     ? 1
     : 0
@@ -540,8 +542,8 @@ export namespace Prisma {
    * Convert tuple to union
    */
   type _TupleToUnion<T> = T extends (infer E)[] ? E : never
-  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>
-  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T
+  type TupleToUnion<K extends readonly unknown[]> = _TupleToUnion<K>
+  type MaybeTupleToUnion<T> = T extends unknown[] ? TupleToUnion<T> : T
 
   /**
    * Like `Pick`, but additionally can also accept an array of keys
@@ -570,7 +572,7 @@ export namespace Prisma {
     db?: Datasource
   }
 
-  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
+  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, unknown>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
   }
 
@@ -603,16 +605,16 @@ export namespace Prisma {
             args: Prisma.BlogPostFindFirstOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
           }
-          findMany: {
-            args: Prisma.BlogPostFindManyArgs<ExtArgs>
+          findMunknown: {
+            args: Prisma.BlogPostFindMunknownArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>[]
           }
           create: {
             args: Prisma.BlogPostCreateArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
           }
-          createMany: {
-            args: Prisma.BlogPostCreateManyArgs<ExtArgs>
+          createMunknown: {
+            args: Prisma.BlogPostCreateMunknownArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
@@ -623,12 +625,12 @@ export namespace Prisma {
             args: Prisma.BlogPostUpdateArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BlogPostPayload>
           }
-          deleteMany: {
-            args: Prisma.BlogPostDeleteManyArgs<ExtArgs>
+          deleteMunknown: {
+            args: Prisma.BlogPostDeleteMunknownArgs<ExtArgs>
             result: BatchPayload
           }
-          updateMany: {
-            args: Prisma.BlogPostUpdateManyArgs<ExtArgs>
+          updateMunknown: {
+            args: Prisma.BlogPostUpdateMunknownArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
@@ -660,7 +662,7 @@ export namespace Prisma {
     }
   } & {
     other: {
-      payload: any
+      payload: unknown
       operations: {
         $runCommandRaw: {
           args: Prisma.InputJsonObject,
@@ -739,7 +741,7 @@ export namespace Prisma {
   }
 
   export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+  export type GetEvents<T extends unknown> = T extends Array<LogLevel | LogDefinition> ?
     GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
     : never
 
@@ -762,18 +764,18 @@ export namespace Prisma {
   export type PrismaAction =
     | 'findUnique'
     | 'findUniqueOrThrow'
-    | 'findMany'
+    | 'findMunknown'
     | 'findFirst'
     | 'findFirstOrThrow'
     | 'create'
-    | 'createMany'
-    | 'createManyAndReturn'
+    | 'createMunknown'
+    | 'createMunknownAndReturn'
     | 'update'
-    | 'updateMany'
-    | 'updateManyAndReturn'
+    | 'updateMunknown'
+    | 'updateMunknownAndReturn'
     | 'upsert'
     | 'delete'
-    | 'deleteMany'
+    | 'deleteMunknown'
     | 'executeRaw'
     | 'queryRaw'
     | 'aggregate'
@@ -788,7 +790,7 @@ export namespace Prisma {
   export type MiddlewareParams = {
     model?: ModelName
     action: PrismaAction
-    args: any
+    args: unknown
     dataPath: string[]
     runInTransaction: boolean
   }
@@ -796,7 +798,7 @@ export namespace Prisma {
   /**
    * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
    */
-  export type Middleware<T = any> = (
+  export type Middleware<T = unknown> = (
     params: MiddlewareParams,
     next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
   ) => $Utils.JsPromise<T>
@@ -1057,7 +1059,7 @@ export namespace Prisma {
   type BlogPostGetPayload<S extends boolean | null | undefined | BlogPostDefaultArgs> = $Result.GetResult<Prisma.$BlogPostPayload, S>
 
   type BlogPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<BlogPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    Omit<BlogPostFindMunknownArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
       select?: BlogPostCountAggregateInputType | true
     }
 
@@ -1125,19 +1127,19 @@ export namespace Prisma {
      * Find zero or more BlogPosts that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BlogPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {BlogPostFindMunknownArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all BlogPosts
-     * const blogPosts = await prisma.blogPost.findMany()
+     * const blogPosts = await prisma.blogPost.findMunknown()
      * 
      * // Get first 10 BlogPosts
-     * const blogPosts = await prisma.blogPost.findMany({ take: 10 })
+     * const blogPosts = await prisma.blogPost.findMunknown({ take: 10 })
      * 
      * // Only select the `id`
-     * const blogPostWithIdOnly = await prisma.blogPost.findMany({ select: { id: true } })
+     * const blogPostWithIdOnly = await prisma.blogPost.findMunknown({ select: { id: true } })
      * 
      */
-    findMany<T extends BlogPostFindManyArgs>(args?: SelectSubset<T, BlogPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMunknown<T extends BlogPostFindMunknownArgs>(args?: SelectSubset<T, BlogPostFindMunknownArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findMunknown", GlobalOmitOptions>>
 
     /**
      * Create a BlogPost.
@@ -1154,18 +1156,18 @@ export namespace Prisma {
     create<T extends BlogPostCreateArgs>(args: SelectSubset<T, BlogPostCreateArgs<ExtArgs>>): Prisma__BlogPostClient<$Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many BlogPosts.
-     * @param {BlogPostCreateManyArgs} args - Arguments to create many BlogPosts.
+     * Create munknown BlogPosts.
+     * @param {BlogPostCreateMunknownArgs} args - Arguments to create munknown BlogPosts.
      * @example
-     * // Create many BlogPosts
-     * const blogPost = await prisma.blogPost.createMany({
+     * // Create munknown BlogPosts
+     * const blogPost = await prisma.blogPost.createMunknown({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends BlogPostCreateManyArgs>(args?: SelectSubset<T, BlogPostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMunknown<T extends BlogPostCreateMunknownArgs>(args?: SelectSubset<T, BlogPostCreateMunknownArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Delete a BlogPost.
@@ -1200,26 +1202,26 @@ export namespace Prisma {
 
     /**
      * Delete zero or more BlogPosts.
-     * @param {BlogPostDeleteManyArgs} args - Arguments to filter BlogPosts to delete.
+     * @param {BlogPostDeleteMunknownArgs} args - Arguments to filter BlogPosts to delete.
      * @example
      * // Delete a few BlogPosts
-     * const { count } = await prisma.blogPost.deleteMany({
+     * const { count } = await prisma.blogPost.deleteMunknown({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends BlogPostDeleteManyArgs>(args?: SelectSubset<T, BlogPostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMunknown<T extends BlogPostDeleteMunknownArgs>(args?: SelectSubset<T, BlogPostDeleteMunknownArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more BlogPosts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {BlogPostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {BlogPostUpdateMunknownArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many BlogPosts
-     * const blogPost = await prisma.blogPost.updateMany({
+     * // Update munknown BlogPosts
+     * const blogPost = await prisma.blogPost.updateMunknown({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1229,7 +1231,7 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends BlogPostUpdateManyArgs>(args: SelectSubset<T, BlogPostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMunknown<T extends BlogPostUpdateMunknownArgs>(args: SelectSubset<T, BlogPostUpdateMunknownArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create or update one BlogPost.
@@ -1290,7 +1292,7 @@ export namespace Prisma {
     count<T extends BlogPostCountArgs>(
       args?: Subset<T, BlogPostCountArgs>,
     ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
+      T extends $Utils.Record<'select', unknown>
         ? T['select'] extends true
           ? number
           : GetScalarType<T['select'], BlogPostCountAggregateOutputType>
@@ -1419,13 +1421,13 @@ export namespace Prisma {
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    catch<TResult = never>(onrejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
@@ -1588,9 +1590,9 @@ export namespace Prisma {
   }
 
   /**
-   * BlogPost findMany
+   * BlogPost findMunknown
    */
-  export type BlogPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BlogPostFindMunknownArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the BlogPost
      */
@@ -1649,13 +1651,13 @@ export namespace Prisma {
   }
 
   /**
-   * BlogPost createMany
+   * BlogPost createMunknown
    */
-  export type BlogPostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BlogPostCreateMunknownArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many BlogPosts.
+     * The data used to create munknown BlogPosts.
      */
-    data: BlogPostCreateManyInput | BlogPostCreateManyInput[]
+    data: BlogPostCreateMunknownInput | BlogPostCreateMunknownInput[]
   }
 
   /**
@@ -1681,19 +1683,19 @@ export namespace Prisma {
   }
 
   /**
-   * BlogPost updateMany
+   * BlogPost updateMunknown
    */
-  export type BlogPostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BlogPostUpdateMunknownArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update BlogPosts.
      */
-    data: XOR<BlogPostUpdateManyMutationInput, BlogPostUncheckedUpdateManyInput>
+    data: XOR<BlogPostUpdateMunknownMutationInput, BlogPostUncheckedUpdateMunknownInput>
     /**
      * Filter which BlogPosts to update
      */
     where?: BlogPostWhereInput
     /**
-     * Limit how many BlogPosts to update.
+     * Limit how munknown BlogPosts to update.
      */
     limit?: number
   }
@@ -1743,15 +1745,15 @@ export namespace Prisma {
   }
 
   /**
-   * BlogPost deleteMany
+   * BlogPost deleteMunknown
    */
-  export type BlogPostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BlogPostDeleteMunknownArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which BlogPosts to delete
      */
     where?: BlogPostWhereInput
     /**
-     * Limit how many BlogPosts to delete.
+     * Limit how munknown BlogPosts to delete.
      */
     limit?: number
   }
@@ -2002,7 +2004,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BlogPostCreateManyInput = {
+  export type BlogPostCreateMunknownInput = {
     id?: string
     title: string
     content: string
@@ -2014,7 +2016,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type BlogPostUpdateManyMutationInput = {
+  export type BlogPostUpdateMunknownMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
@@ -2025,7 +2027,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BlogPostUncheckedUpdateManyInput = {
+  export type BlogPostUncheckedUpdateMunknownInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
@@ -2208,7 +2210,7 @@ export namespace Prisma {
 
 
   /**
-   * Batch Payload for updateMany & deleteMany & createMany
+   * Batch Payload for updateMunknown & deleteMunknown & createMunknown
    */
 
   export type BatchPayload = {
