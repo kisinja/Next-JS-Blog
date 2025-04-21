@@ -9,6 +9,8 @@ const Navbar = async () => {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 
+    const userImg = user?.picture || "https://i.pinimg.com/474x/6e/59/95/6e599501252c23bcf02658617b29c894.jpg";
+
     return (
         <nav className='py-5 flex items-center justify-between'>
             <div className="flex items-center gap-8 md:gap-12">
@@ -33,7 +35,7 @@ const Navbar = async () => {
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 relative rounded-full overflow-hidden">
                                 <Image
-                                    src={user.picture}
+                                    src={userImg}
                                     alt="User profile"
                                     width={40}
                                     height={40}
