@@ -12,7 +12,7 @@ const Navbar = async () => {
     const userImg = user?.picture || "https://i.pinimg.com/474x/6e/59/95/6e599501252c23bcf02658617b29c894.jpg";
 
     return (
-        <nav className='py-5 flex items-center justify-between'>
+        <nav className='py-5 flex items-center justify-between sticky top-0 w-full z-[1000]'>
             <div className="flex items-center gap-8 md:gap-12">
                 <Link href="/">
                     <h1 className='text-3xl font-semibold'>
