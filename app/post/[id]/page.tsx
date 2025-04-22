@@ -5,6 +5,9 @@ import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import { buttonVariants } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { redirect } from 'next/navigation';
+import { Trash2 } from 'lucide-react';
 
 const getPostDetail = async (postId: string) => {
     const data = await prisma.blogPost.findUnique({
@@ -15,11 +18,27 @@ const getPostDetail = async (postId: string) => {
     return data;
 };
 
+const deletePost = async (postId: string) => {
+    try {
+        await prisma.blogPost.delete({
+            where: {
+                id: postId,
+            }
+        });
+        redirect("/");
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 type Params = Promise<{ id: string }>;
 
 const PostDetail = async ({ params }: { params: Params }) => {
     const { id } = await params;
     const post = await getPostDetail(id);
+
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
     if (!post) {
         return (
@@ -38,13 +57,30 @@ const PostDetail = async ({ params }: { params: Params }) => {
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fadeIn flex flex-col gap-6">
 
-            <div>
+            <div className='flex justify-between items-center'>
                 <Link href="/" className={buttonVariants({
                     variant: "secondary",
                 }) + " flex items-center gap-1"}>
                     <ChevronLeft className="inline" size={16} />
                     Back to posts
                 </Link>
+
+                {
+                    user?.id === post.authorId && (
+                        <form
+                            className={"w-max cursor-pointer"}
+                            action={
+                                async () => {
+                                    "use server";
+                                    await deletePost(post.id)
+                                }
+                            }>
+                            <button type="submit">
+                                <Trash2 color="#f40101" />
+                            </button>
+                        </form>
+                    )
+                }
             </div>
 
             <div className="">
