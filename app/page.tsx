@@ -3,6 +3,8 @@ import BlogCardSkeleton from "@/components/BlogCardSkeleton";
 import prisma from "@/utils/connect";
 import { Suspense } from "react";
 
+export const revalidate = 60;
+
 const getData = async () => {
   await new Promise(resolve => setTimeout(resolve, 2000));
   // Simulate a delay of 2 seconds
