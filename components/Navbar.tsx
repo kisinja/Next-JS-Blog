@@ -1,13 +1,16 @@
+"use client";
+
 import Link from 'next/link'
 import { buttonVariants } from './ui/button';
 import NavLink from './NavLink';
-import { RegisterLink, LoginLink, getKindeServerSession, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from 'next/image';
 import CustomDropdown from './CustomDropdown';
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 
-const Navbar = async () => {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+const Navbar = () => {
+    const { getUser } = useKindeBrowserClient();
+    const user = getUser();
 
     const userImg = user?.picture || "https://i.pinimg.com/474x/6e/59/95/6e599501252c23bcf02658617b29c894.jpg";
 
@@ -17,7 +20,7 @@ const Navbar = async () => {
                 <Link href="/">
                     <h1 className='text-3xl font-semibold'>
                         Blog
-                        <span className='text-blue-500'>
+                        <span className='text-blue-500 font-bold'>
                             Githinji
                         </span>
                     </h1>

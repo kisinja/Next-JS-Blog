@@ -30,7 +30,7 @@ const CreateBlog = async () => {
                             <Input required type='url' placeholder='Image url' name="imgUrl" />
                         </div>
 
-                        <SubmitButton/>
+                        <SubmitButton />
                     </form>
                 </CardContent>
             </Card>
