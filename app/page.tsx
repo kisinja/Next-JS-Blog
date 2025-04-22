@@ -19,6 +19,9 @@ const getData = async () => {
       createdAt: true,
       updatedAt: true,
       authorId: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     }
   });
 
