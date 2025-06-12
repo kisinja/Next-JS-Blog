@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/components/AuthProvider";
+import { CartProvider } from "@/context/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blog Githinji",
-  description: "A blog by Githinji",
+  title: "Smart Farmer",
+  description: "A smart farming application",
 };
 
 export default function RootLayout({
@@ -30,8 +31,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`}
         >
-          <Navbar />
-          {children}
+          <CartProvider>
+            <Navbar />
+            {children}
+          </CartProvider>
         </body>
       </html>
     </AuthProvider>
